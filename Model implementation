@@ -1,0 +1,5 @@
+from segmentation_models import Unet
+
+# Define Nested U-Net model
+model_unetpp = Unet('resnet34', input_shape=(256, 256, 3), classes=1, activation='sigmoid')
+model_unetpp.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
