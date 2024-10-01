@@ -1,0 +1,10 @@
+import streamlit as st
+import requests
+
+st.title('Brain MRI Metastasis Segmentation')
+
+uploaded_file = st.file_uploader("Choose a brain MRI image...", type="png")
+
+if uploaded_file is not None:
+    # Send the image to the FAST API and display the segmented result
+    pass
