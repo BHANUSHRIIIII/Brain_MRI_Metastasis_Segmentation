@@ -1,11 +1,16 @@
-import cv2
-import numpy as np
+from fastapi import FastAPI
+from pydantic import BaseModel
+import tensorflow as tf
 
-def apply_clahe(image):
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    if len(image.shape) == 3:  # Check if it's a 3-channel image
-        for i in range(3):
-            image[:, :, i] = clahe.apply(image[:, :, i])
-    else:
-        image = clahe.apply(image)
-    return image
+app = FastAPI()
+
+class ImageData(BaseModel):
+    image: str
+
+model = tf.keras.models.load_model('best_model.h5')
+
+@app.post("/predict")
+def predict(image_data: ImageData):
+    # Preprocess the image and run the model
+    result = model.predict(image_data.image)
+    return {"segmentation_result": result.tolist()}
